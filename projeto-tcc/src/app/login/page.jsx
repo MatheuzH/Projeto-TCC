@@ -35,11 +35,13 @@ export default function Login(){
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        placeholder='Email'
       />
       <input
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        placeholder='Senha'
       />
       <button onClick={() => signInWithEmailAndPassword(email, password)}>
         Login
