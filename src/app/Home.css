@@ -37,7 +37,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
     background: linear-gradient(135deg, #4a90e2, #7b4397);
     animation: fadeIn 1s ease-in;
 }
