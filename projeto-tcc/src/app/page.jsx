@@ -1,31 +1,17 @@
-import Link from 'next/link';
-import "./home.css"
+import React from 'react';
+import { Bell, Calendar, Sun, Image } from 'lucide-react';
+import HomeButton from './components/HomeButton';
+import './Home.css';
 
 export default function Home() {
   return (
     <div className="container">
-      <h1 className="title">Agenda Virtual - Creche</h1>
-      <div className="cards">
-        <Link href="/diaadia">
-          <div className="card">
-            <h2>Dia a Dia</h2>
-          </div>
-        </Link>
-        <Link href="/avisos">
-          <div className="card">
-            <h2>Avisos</h2>
-          </div>
-        </Link>
-        <Link href={"/imagens"}>
-          <div className="card">
-            <h2>Imagens</h2>
-          </div>
-        </Link>
-        <Link href="/calendario">
-          <div className="card">
-            <h2>Calendário</h2>
-          </div>
-        </Link>
+      <h1 className="title">Agenda de Creche</h1>
+      <div className="buttonContainer">
+        <HomeButton href="/avisos" icon={Bell} label="Avisos" />
+        <HomeButton href="/calendario" icon={Calendar} label="Calendário" />
+        <HomeButton href="/diaadia" icon={Sun} label="Dia a Dia" />
+        <HomeButton href="/imagens" icon={Image} label="Imagens" />
       </div>
     </div>
   );
