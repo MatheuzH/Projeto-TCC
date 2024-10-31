@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { db, auth } from '../firebaseconfig';
 import { doc, getDoc, collection, getDocs, setDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from "firebase/auth";
-import "./dia.css"
+import "./dia.css";
 
 const DiaADia = () => {
     const [data, setData] = useState('');
@@ -102,7 +102,7 @@ const DiaADia = () => {
     return (
         <div className="diaContainer">
             <h1 className="diaTitle">Registro Diário das Atividades</h1>
-            <p className='privilegio'>Usuário: {privilegio}</p>
+            <p>Privilégio do usuário: {privilegio}</p>
             <div className="diaForm">
                 <label className="diaLabel">Data do Registro:</label>
                 <input
@@ -145,42 +145,21 @@ const DiaADia = () => {
 
                 <h3>Atividades</h3>
                 <div className="checkboxGroup">
-                    <label className="checkboxItem">
-                        <input
-                            type="checkbox"
-                            checked={atividades.dormiu}
-                            onChange={(e) =>
-                                privilegio === 'admin' && setAtividades({ ...atividades, dormiu: e.target.checked })
-                            }
-                            disabled={privilegio !== 'admin'}
-                            className="diaCheckbox"
-                        />
-                        Dormiu
-                    </label>
-                    <label className="checkboxItem">
-                        <input
-                            type="checkbox"
-                            checked={atividades.almocou}
-                            onChange={(e) =>
-                                privilegio === 'admin' && setAtividades({ ...atividades, almocou: e.target.checked })
-                            }
-                            disabled={privilegio !== 'admin'}
-                            className="diaCheckbox"
-                        />
-                        Almoçou
-                    </label>
-                    <label className="checkboxItem">
-                        <input
-                            type="checkbox"
-                            checked={atividades.defecou}
-                            onChange={(e) =>
-                                privilegio === 'admin' && setAtividades({ ...atividades, defecou: e.target.checked })
-                            }
-                            disabled={privilegio !== 'admin'}
-                            className="diaCheckbox"
-                        />
-                        Defecou
-                    </label>
+                    {['dormiu', 'almocou', 'defecou'].map((atividade) => (
+                        <label key={atividade} className="checkboxItem">
+                            <input
+                                type="checkbox"
+                                checked={atividades[atividade]}
+                                onChange={(e) =>
+                                    privilegio === 'admin' &&
+                                    setAtividades({ ...atividades, [atividade]: e.target.checked })
+                                }
+                                className="diaCheckbox"
+                            />
+                            <span className="customCheckbox"></span>
+                            {atividade.charAt(0).toUpperCase() + atividade.slice(1)}
+                        </label>
+                    ))}
                 </div>
 
                 {privilegio === 'admin' && <button onClick={handleSave} className="diaSaveButton">Salvar</button>}
