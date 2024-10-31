@@ -14,14 +14,31 @@ export default function Cadastro() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const [filhos, setFilhos] = useState([]); // Lista de filhos
+
   // Verifica se o usuário atual é admin antes de permitir acesso à página
   useEffect(() => {
     const isAdmin = localStorage.getItem("isAdmin") === "true";
     if (!isAdmin) {
-      // Redireciona para a página inicial se o usuário não for admin
-      router.push("/");
+      router.push("/"); // Redireciona para a página inicial se o usuário não for admin
     }
   }, [router]);
+
+  const handleAddFilho = () => {
+    setFilhos([...filhos, { nome: '', turma: '' }]);
+  };
+
+  const handleChangeFilho = (index, field, value) => {
+    const newFilhos = [...filhos];
+    newFilhos[index][field] = value;
+    setFilhos(newFilhos);
+  };
+
+  const handleRemoveFilho = (index) => {
+    const newFilhos = [...filhos];
+    newFilhos.splice(index, 1);
+    setFilhos(newFilhos);
+  };
 
   const handleSignUp = async () => {
     setLoading(true);
@@ -30,15 +47,17 @@ export default function Cadastro() {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const newUser = userCredential.user;
 
-      // Salva o privilégio do novo usuário no Firestore
+      // Salva o privilégio e filhos do novo usuário no Firestore
       await setDoc(doc(db, "Users", newUser.uid), {
         email: email,
-        privilegio: privilegio, // Pode ser "admin" ou "pai"
+        privilegio: privilegio,
+        filhos: privilegio === 'pai' ? filhos : [], // Apenas salva filhos se for "pai"
       });
 
       setEmail('');
       setPassword('');
       setPrivilegio('pai');
+      setFilhos([]);
       alert(`Usuário cadastrado com sucesso como ${privilegio}!`);
     } catch (error) {
       setError(error.message);
@@ -70,6 +89,31 @@ export default function Cadastro() {
         <option value="pai">Pai</option>
         <option value="admin">Administrador</option>
       </select>
+
+      {privilegio === "pai" && (
+        <div className="filhos-section">
+          <h3>Filhos</h3>
+          {filhos.map((filho, index) => (
+            <div key={index} className="filho-entry">
+              <input
+                type="text"
+                placeholder="Nome do Filho"
+                value={filho.nome}
+                onChange={(e) => handleChangeFilho(index, 'nome', e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Turma"
+                value={filho.turma}
+                onChange={(e) => handleChangeFilho(index, 'turma', e.target.value)}
+              />
+              <button onClick={() => handleRemoveFilho(index)}>Remover</button>
+            </div>
+          ))}
+          <button onClick={handleAddFilho}>Adicionar Filho</button>
+        </div>
+      )}
+
       <button onClick={handleSignUp} disabled={loading}>
         {loading ? "Cadastrando..." : "Cadastrar Usuário"}
       </button>
