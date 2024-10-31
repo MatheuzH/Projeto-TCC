@@ -1,0 +1,130 @@
+body {
+    margin: 0;
+}
+
+.diaContainer {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #4a90e2, #7b4397);
+    animation: fadeIn 1s ease-in;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.privilegio {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 10px;
+    text-align: center;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.diaTitle {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 10px;
+    text-align: center;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.diaForm {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 90%;
+    /* Ajuste para largura máxima responsiva */
+    width: 500px;
+    text-align: center;
+    animation: fadeIn 0.5s ease-in;
+    box-sizing: border-box;
+}
+
+.diaLabel {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 10px;
+    display: block;
+    text-align: left;
+}
+
+.diaInput,
+.diaSelect,
+.diaTextarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+    box-sizing: border-box;
+}
+
+.diaSelect {
+    background-color: #fff;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.diaTextarea {
+    resize: vertical;
+    height: 100px;
+}
+
+.checkboxGroup {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0;
+}
+
+.checkboxItem {
+    font-size: 1rem;
+    color: #333;
+}
+
+.diaCheckbox {
+    margin-right: 5px;
+}
+
+.diaSaveButton {
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.diaSaveButton:hover {
+    background-color: #357ab7;
+}
+
+.diaSaveButton:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .diaForm {
+        width: 100%;
+        /* Largura total para dispositivos menores */
+        padding: 15px;
+    }
+}

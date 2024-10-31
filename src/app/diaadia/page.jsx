@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { db, auth } from '../firebaseconfig';
 import { doc, getDoc, collection, getDocs, setDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from "firebase/auth";
+import "./dia.css"
 
 const DiaADia = () => {
     const [data, setData] = useState('');
@@ -19,10 +20,8 @@ const DiaADia = () => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
-                console.log("Usuário autenticado com UID:", user.uid);
                 await fetchUserPrivileges(user.uid);
             } else {
-                console.log("Usuário não autenticado.");
                 setPrivilegio(null);
             }
         });
@@ -36,7 +35,6 @@ const DiaADia = () => {
             if (userDoc.exists()) {
                 const userData = userDoc.data();
                 setPrivilegio(userData.privilegio);
-                console.log("Privilégio do usuário:", userData.privilegio);
 
                 if (userData.privilegio === "pai") {
                     setFilhos(userData.filhos || []);
@@ -51,8 +49,6 @@ const DiaADia = () => {
                     });
                     setFilhos(allFilhos);
                 }
-            } else {
-                console.log("Documento do usuário não encontrado.");
             }
         } catch (error) {
             console.error("Erro ao buscar privilégios:", error);
@@ -104,87 +100,91 @@ const DiaADia = () => {
     };
 
     return (
-        <div>
-            <h1>Registro Diário das Atividades</h1>
-            <p>Privilégio do usuário: {privilegio}</p>
-            <label>Data do Registro:</label>
-            <input
-                type="date"
-                value={data}
-                onChange={(e) => setData(e.target.value)}
-                required
-            />
-
-            {filhos.length > 0 && (
-                <>
-                    <label>Selecione a criança:</label>
-                    <select
-                        value={selectedFilho ? JSON.stringify(selectedFilho) : ''}
-                        onChange={(e) => setSelectedFilho(JSON.parse(e.target.value))}
-                    >
-                        <option value="">Selecione</option>
-                        {filhos.map((filho, index) => (
-                            <option key={index} value={JSON.stringify(filho)}>
-                                {filho.nome} - {filho.turma}
-                            </option>
-                        ))}
-                    </select>
-                </>
-            )}
-
-            <label>Observações:</label>
-            {privilegio === 'admin' ? (
-                <textarea
-                    value={observacoes}
-                    onChange={(e) => setObservacoes(e.target.value)}
-                    placeholder="Observações do dia"
+        <div className="diaContainer">
+            <h1 className="diaTitle">Registro Diário das Atividades</h1>
+            <p className='privilegio'>Usuário: {privilegio}</p>
+            <div className="diaForm">
+                <label className="diaLabel">Data do Registro:</label>
+                <input
+                    type="date"
+                    value={data}
+                    onChange={(e) => setData(e.target.value)}
+                    className="diaInput"
+                    required
                 />
-            ) : (
-                <p>{observacoes || "Sem observações para esta data."}</p>
-            )}
 
-            <h3>Atividades</h3>
-            <div>
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={atividades.dormiu}
-                        onChange={(e) =>
-                            privilegio === 'admin' && setAtividades({ ...atividades, dormiu: e.target.checked })
-                        }
-                        disabled={privilegio !== 'admin'}
-                    />
-                    Dormiu
-                </label>
-            </div>
-            <div>
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={atividades.almocou}
-                        onChange={(e) =>
-                            privilegio === 'admin' && setAtividades({ ...atividades, almocou: e.target.checked })
-                        }
-                        disabled={privilegio !== 'admin'}
-                    />
-                    Almoçou
-                </label>
-            </div>
-            <div>
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={atividades.defecou}
-                        onChange={(e) =>
-                            privilegio === 'admin' && setAtividades({ ...atividades, defecou: e.target.checked })
-                        }
-                        disabled={privilegio !== 'admin'}
-                    />
-                    Defecou
-                </label>
-            </div>
+                {filhos.length > 0 && (
+                    <>
+                        <label className="diaLabel">Selecione a criança:</label>
+                        <select
+                            value={selectedFilho ? JSON.stringify(selectedFilho) : ''}
+                            onChange={(e) => setSelectedFilho(JSON.parse(e.target.value))}
+                            className="diaSelect"
+                        >
+                            <option value="">Selecione</option>
+                            {filhos.map((filho, index) => (
+                                <option key={index} value={JSON.stringify(filho)}>
+                                    {filho.nome} - {filho.turma}
+                                </option>
+                            ))}
+                        </select>
+                    </>
+                )}
 
-            {privilegio === 'admin' && <button onClick={handleSave}>Salvar</button>}
+                <label className="diaLabel">Observações:</label>
+                {privilegio === 'admin' ? (
+                    <textarea
+                        value={observacoes}
+                        onChange={(e) => setObservacoes(e.target.value)}
+                        placeholder="Observações do dia"
+                        className="diaTextarea"
+                    />
+                ) : (
+                    <p>{observacoes || "Sem observações para esta data."}</p>
+                )}
+
+                <h3>Atividades</h3>
+                <div className="checkboxGroup">
+                    <label className="checkboxItem">
+                        <input
+                            type="checkbox"
+                            checked={atividades.dormiu}
+                            onChange={(e) =>
+                                privilegio === 'admin' && setAtividades({ ...atividades, dormiu: e.target.checked })
+                            }
+                            disabled={privilegio !== 'admin'}
+                            className="diaCheckbox"
+                        />
+                        Dormiu
+                    </label>
+                    <label className="checkboxItem">
+                        <input
+                            type="checkbox"
+                            checked={atividades.almocou}
+                            onChange={(e) =>
+                                privilegio === 'admin' && setAtividades({ ...atividades, almocou: e.target.checked })
+                            }
+                            disabled={privilegio !== 'admin'}
+                            className="diaCheckbox"
+                        />
+                        Almoçou
+                    </label>
+                    <label className="checkboxItem">
+                        <input
+                            type="checkbox"
+                            checked={atividades.defecou}
+                            onChange={(e) =>
+                                privilegio === 'admin' && setAtividades({ ...atividades, defecou: e.target.checked })
+                            }
+                            disabled={privilegio !== 'admin'}
+                            className="diaCheckbox"
+                        />
+                        Defecou
+                    </label>
+                </div>
+
+                {privilegio === 'admin' && <button onClick={handleSave} className="diaSaveButton">Salvar</button>}
+            </div>
         </div>
     );
 };
