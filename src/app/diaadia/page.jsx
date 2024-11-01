@@ -1,5 +1,6 @@
 "use client"
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { db, auth } from '../firebaseconfig';
 import { doc, getDoc, collection, getDocs, setDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from "firebase/auth";
@@ -17,12 +18,15 @@ const DiaADia = () => {
     const [filhos, setFilhos] = useState([]);
     const [selectedFilho, setSelectedFilho] = useState(null);
 
+    const router = useRouter();
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 await fetchUserPrivileges(user.uid);
             } else {
-                setPrivilegio(null);
+                // Se o usuário não estiver logado, redireciona para a página de login
+                router.push('/login');
             }
         });
 
@@ -102,7 +106,7 @@ const DiaADia = () => {
     return (
         <div className="diaContainer">
             <h1 className="diaTitle">Registro Diário das Atividades</h1>
-            <p>Privilégio do usuário: {privilegio}</p>
+            <p className='privilegio'>Usuário: {privilegio}</p>
             <div className="diaForm">
                 <label className="diaLabel">Data do Registro:</label>
                 <input

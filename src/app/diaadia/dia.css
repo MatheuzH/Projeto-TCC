@@ -165,3 +165,11 @@ body {
         padding: 15px;
     }
 }
+
+.privilegio {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 10px;
+    text-align: center;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
