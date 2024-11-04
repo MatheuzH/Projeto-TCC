@@ -32,7 +32,7 @@ export default function Login() {
 
           // Redireciona com base no privilégio
           if (isAdmin) {
-            window.location.href = "/cadastro";
+            window.location.href = "/";
           } else {
             window.location.href = "/";
           }

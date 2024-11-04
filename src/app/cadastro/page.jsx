@@ -20,7 +20,7 @@ export default function Cadastro() {
   useEffect(() => {
     const isAdmin = localStorage.getItem("isAdmin") === "true";
     if (!isAdmin) {
-      router.push("/"); // Redireciona para a página inicial se o usuário não for admin
+      router.push("/"); 
     }
   }, [router]);
 
@@ -86,7 +86,7 @@ export default function Cadastro() {
         value={privilegio}
         onChange={(e) => setPrivilegio(e.target.value)}
       >
-        <option value="pai">Pai</option>
+        <option value="pai">Responsável</option>
         <option value="admin">Administrador</option>
       </select>
 
