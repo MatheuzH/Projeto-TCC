@@ -10,10 +10,9 @@ export default function Cadastro() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [privilegio, setPrivilegio] = useState('pai'); // Padrão é "pai"
+  const [privilegio, setPrivilegio] = useState('responsável'); // Padrão agora é "responsavel"
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
   const [filhos, setFilhos] = useState([]); // Lista de filhos
 
   // Verifica se o usuário atual é admin antes de permitir acesso à página
@@ -51,12 +50,12 @@ export default function Cadastro() {
       await setDoc(doc(db, "Users", newUser.uid), {
         email: email,
         privilegio: privilegio,
-        filhos: privilegio === 'pai' ? filhos : [], // Apenas salva filhos se for "pai"
+        filhos: privilegio === 'responsável' ? filhos : [], // Apenas salva filhos se for "responsavel"
       });
 
       setEmail('');
       setPassword('');
-      setPrivilegio('pai');
+      setPrivilegio('responsável');
       setFilhos([]);
       alert(`Usuário cadastrado com sucesso como ${privilegio}!`);
     } catch (error) {
@@ -86,11 +85,11 @@ export default function Cadastro() {
         value={privilegio}
         onChange={(e) => setPrivilegio(e.target.value)}
       >
-        <option value="pai">Responsável</option>
+        <option value="responsável">Responsável</option>
         <option value="admin">Administrador</option>
       </select>
 
-      {privilegio === "pai" && (
+      {privilegio === "responsável" && (
         <div className="filhos-section">
           <h3>Filhos</h3>
           {filhos.map((filho, index) => (

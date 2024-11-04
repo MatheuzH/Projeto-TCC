@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { db, auth } from '../firebaseconfig';
@@ -40,7 +40,7 @@ const DiaADia = () => {
                 const userData = userDoc.data();
                 setPrivilegio(userData.privilegio);
 
-                if (userData.privilegio === "pai") {
+                if (userData.privilegio === "responsável") {
                     setFilhos(userData.filhos || []);
                 } else if (userData.privilegio === "admin") {
                     const usersSnapshot = await getDocs(collection(db, 'Users'));
@@ -173,4 +173,3 @@ const DiaADia = () => {
 };
 
 export default DiaADia;
-    
