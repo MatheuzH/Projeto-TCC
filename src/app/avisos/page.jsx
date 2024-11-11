@@ -1,10 +1,13 @@
-"use client"
+"use client";
 import { useEffect, useState } from 'react';
 import { db } from '../firebaseconfig.js';
 import { collection, addDoc, getDocs, Timestamp } from 'firebase/firestore';
-import "./avisos.css"
+import { useRouter } from 'next/navigation';
+import { Home } from 'lucide-react'; // Ícone de Home
+import "./avisos.css";
 
 export default function Avisos() {
+    const router = useRouter();
     const [avisos, setAvisos] = useState([]);
     const [novoAviso, setNovoAviso] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
@@ -58,8 +61,17 @@ export default function Avisos() {
     const abrirModal = () => setModalOpen(true);
     const fecharModal = () => setModalOpen(false);
 
+    const handleBackToHome = () => {
+        router.push('/'); // Redireciona para a Home Page
+    };
+
     return (
         <div className="avisos-container">
+            {/* Ícone de Home */}
+            <div className="icon-home" onClick={handleBackToHome}>
+                <Home size={32} />
+            </div>
+
             <h1 className="avisos-title">Avisos da Creche</h1>
 
             {/* Botão de Adicionar Aviso (apenas para administradores) */}

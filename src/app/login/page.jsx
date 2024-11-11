@@ -82,7 +82,6 @@ export default function Login() {
       <button onClick={() => signInWithEmailAndPassword(email, password)}>
         Login
       </button>
-      <Link href="/cadastro">Cadastro</Link>
     </div>
   );
 }

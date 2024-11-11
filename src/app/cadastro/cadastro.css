@@ -1,22 +1,135 @@
-.App {
+/* Fundo geral da página */
+body {
+    margin: 0px;
+}
+
+.background-container {
+    min-height: 100vh;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding: 20px;
+    background: linear-gradient(135deg, #4a90e2, #7b4397);
+}
+
+.App {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #4a90e2;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
 }
 
 input,
-select,
-button {
-    margin: 10px;
+select {
+    width: 100%;
     padding: 10px;
-    font-size: 16px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
 button {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1rem;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #7b4397;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.filhos-section {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.filho-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.filho-entry button {
+    align-self: flex-end;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    border-radius: 5px;
     cursor: pointer;
 }
 
+.filho-entry button:hover {
+    background-color: #c0392b;
+}
+
 .error {
-    color: red;
+    color: #e74c3c;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .App {
+        padding: 20px;
+        width: 90%;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    input,
+    select,
+    button {
+        font-size: 0.9rem;
+    }
+
+    .filho-entry button {
+        font-size: 0.8rem;
+    }
+}
+
+.icon-home {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    color: #043874;
+    transition: color 0.3s ease;
+}
+
+.icon-home:hover {
+    color: #7b4397;
 }
