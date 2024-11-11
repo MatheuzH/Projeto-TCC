@@ -1,0 +1,206 @@
+/* Ajuste do Container */
+body {
+    margin: 0px;
+}
+
+.calendar-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #4a90e2, #7b4397);
+    padding: 20px;
+}
+
+.calendar-title {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Personalização do calendário */
+.custom-calendar {
+    width: 100%;
+    max-width: 800px;
+    /* Para telas maiores */
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.react-calendar__navigation button {
+    color: #4a90e2;
+    font-weight: bold;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+    color: #333;
+    /* Cor para os dias da semana */
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.react-calendar__tile {
+    color: #333;
+    /* Cor para os dias padrão */
+    font-size: 1rem;
+    padding: 10px;
+}
+
+.react-calendar__tile--now {
+    background-color: #4a90e2;
+    color: #fff;
+    /* Cor para o dia atual */
+    border-radius: 10px;
+}
+
+.react-calendar__tile--active {
+    background-color: #7b4397;
+    color: #fff;
+    /* Cor para o dia selecionado */
+    border-radius: 10px;
+}
+
+/* Eventos */
+.event-tag {
+    background-color: #7b4397;
+    color: white;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.event-tag.holiday {
+    background-color: #e74c3c;
+}
+
+/* Modal de inserção e visualização */
+.calendar-modal,
+.event-view-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: 90%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.calendar-modal input,
+.calendar-modal textarea,
+.event-view-modal button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.calendar-modal button {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.calendar-modal button:hover {
+    background-color: #7b4397;
+}
+
+.event-view-modal h2 {
+    color: #4a90e2;
+}
+
+.event-details h3 {
+    color: #4a90e2;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.event-details p {
+    color: #555;
+    font-size: 1rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .custom-calendar {
+        max-width: 100%;
+    }
+
+    .calendar-title {
+        font-size: 2rem;
+    }
+}
+
+/* Botão para adicionar feriados */
+.add-event-button {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.add-event-button:hover {
+    background-color: #7b4397;
+}
+
+/* Modal de adicionar feriado */
+.holiday-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: 90%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.holiday-modal input,
+.holiday-modal textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.holiday-modal button {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.holiday-modal button:hover {
+    background-color: #7b4397;
+}

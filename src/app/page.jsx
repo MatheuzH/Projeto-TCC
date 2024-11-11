@@ -30,7 +30,7 @@ export default function Home() {
         <HomeButton href="/avisos" icon={Bell} label="Avisos" />
         <HomeButton href="/calendario" icon={Calendar} label="Calendário" />
         <HomeButton href="/diaadia" icon={Sun} label="Dia a Dia" />
-        <HomeButton href="/imagens" icon={Image} label="Imagens" />
+        <HomeButton href="/galeria" icon={Image} label="Galeria" />
       </div>
     </div>
   );
