@@ -3,10 +3,13 @@ import { useState, useEffect } from 'react';
 import { db } from '../firebaseconfig'; // Firestore
 import { collection, addDoc, query, orderBy, onSnapshot } from 'firebase/firestore';
 import Calendar from 'react-calendar';
+import { Home } from 'lucide-react'; // Ícone de Home
+import { useRouter } from 'next/navigation';
 import 'react-calendar/dist/Calendar.css'; // Importar estilos do calendário
 import './calendar.css'; // Importar CSS personalizado
 
 const CalendarPage = () => {
+    const router = useRouter();
     const [isAdmin, setIsAdmin] = useState(false);
     const [value, setValue] = useState(new Date());
     const [events, setEvents] = useState([]);
@@ -73,8 +76,16 @@ const CalendarPage = () => {
         ));
     };
 
+    const handleBackToHome = () => {
+        router.push('/'); // Redireciona para a Home Page
+    };
+
     return (
         <div className="calendar-container">
+            {/* Ícone de Home */}
+            <div className="icon-home" onClick={handleBackToHome}>
+                <Home size={32} />
+            </div>
             <h1 className="calendar-title">Calendário</h1>
             <Calendar
                 onChange={setValue}

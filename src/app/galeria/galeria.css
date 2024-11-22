@@ -251,3 +251,16 @@ body {
 .remove-button:hover {
     background-color: #c0392b;
 }
+
+.icon-home {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    color: #043874;
+    transition: color 0.3s ease;
+}
+
+.icon-home:hover {
+    color: #7b4397;
+}
