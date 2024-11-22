@@ -186,3 +186,15 @@ body {
 .icon-home:hover {
     color: #7b4397;
 }
+
+@media (max-width: 768px) {
+    .checkboxGroup {
+        flex-direction: column; /* Alinha os checkboxes em coluna */
+        align-items: flex-start; /* Alinha os itens à esquerda */
+        gap: 10px; /* Adiciona espaçamento entre os checkboxes */
+    }
+
+    .checkboxItem {
+        width: 100%; /* Cada checkbox ocupa toda a largura disponível */
+    }
+}

@@ -217,3 +217,39 @@ body {
 .icon-home:hover {
     color: #7b4397;
 }
+
+@media (max-width: 768px) {
+    .custom-calendar {
+        max-width: 100%;
+        width: 100%;
+        padding: 10px; /* Adiciona um espaçamento interno */
+        box-sizing: border-box; /* Garante que o padding não extrapole a largura */
+    }
+
+    .react-calendar__tile {
+        font-size: 0.9rem; /* Ajusta o tamanho da fonte para melhor visualização */
+        padding: 8px; /* Reduz o espaçamento interno dos dias */
+    }
+
+    .react-calendar__navigation {
+        display: flex;
+        flex-wrap: wrap; /* Ajusta a barra de navegação para caber em telas menores */
+        justify-content: space-between;
+    }
+
+    .react-calendar__navigation button {
+        flex: 1 0 20%; /* Ajusta os botões para ocupar espaço proporcional */
+        font-size: 0.8rem; /* Reduz o tamanho da fonte dos botões */
+        margin: 2px; /* Espaçamento entre os botões */
+    }
+
+    .event-tag {
+        font-size: 0.7rem; /* Ajusta o tamanho das tags de eventos */
+        padding: 3px 5px; /* Reduz o tamanho do padding */
+    }
+
+    .add-event-button {
+        font-size: 0.9rem; /* Ajusta o tamanho do botão para mobile */
+        padding: 8px 12px; /* Reduz o padding do botão */
+    }
+}

@@ -8,13 +8,15 @@ import {
   onSnapshot,
   doc,
   deleteDoc,
+  setDoc,
 } from "firebase/firestore";
 import "./galeria.css"; // Importar CSS
 import { Home } from "lucide-react"; // Ícone de Home
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 const GalleryPage = () => {
-    const router = useRouter();
+  const router = useRouter();
+  const [imageFileName, setImageFileName] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [galleryItems, setGalleryItems] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -126,14 +128,69 @@ const GalleryPage = () => {
           <input
             id="file-upload"
             type="file"
-            onChange={(e) => setImageFile(e.target.files[0])}
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files[0];
+              if (file) {
+                setImageFile(file);
+                setImageFileName(file.name); // Armazena o nome do arquivo
+              }
+            }}
           />
+          {imageFileName && (
+            <p className="file-name-label">
+              Arquivo selecionado: {imageFileName}
+            </p>
+          )}
           <input
             type="text"
             placeholder="Legenda"
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
           />
+          <button
+            onClick={async () => {
+              if (!imageFile || !caption) {
+                alert("Por favor, escolha uma imagem e insira uma legenda.");
+                return;
+              }
+
+              const reader = new FileReader();
+              reader.readAsDataURL(imageFile);
+              reader.onloadend = async () => {
+                try {
+                  const base64Image = reader.result;
+
+                  const newImage = {
+                    caption,
+                    datePosted: new Date(),
+                    imageUrl: base64Image,
+                  };
+
+                  const galleryRef = collection(db, "gallery");
+
+                  await setDoc(doc(galleryRef), newImage);
+
+                  alert("Imagem adicionada com sucesso!");
+                  setShowModal(false);
+                  setImageFile(null);
+                  setImageFileName(""); // Reseta o nome do arquivo
+                  setCaption("");
+                } catch (error) {
+                  console.error("Erro ao salvar imagem:", error);
+                  alert("Erro ao adicionar imagem. Tente novamente.");
+                }
+              };
+
+              reader.onerror = () => {
+                console.error("Erro ao converter imagem para Base64.");
+                alert("Erro ao processar a imagem. Tente novamente.");
+              };
+            }}
+            className="upload-button"
+          >
+            Adicionar Imagem
+          </button>
           <button onClick={() => setShowModal(false)}>Cancelar</button>
         </div>
       )}

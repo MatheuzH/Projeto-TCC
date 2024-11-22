@@ -11,9 +11,10 @@ const DiaADia = () => {
   const [data, setData] = useState("");
   const [observacoes, setObservacoes] = useState("");
   const [atividades, setAtividades] = useState({
-    dormiu: false,
-    almocou: false,
-    defecou: false,
+    Dormiu: false,
+    Almocou: false,
+    Banheiro: false,
+    Colacao: false,
   });
   const [privilegio, setPrivilegio] = useState(null);
   const [filhos, setFilhos] = useState([]);
@@ -42,7 +43,9 @@ const DiaADia = () => {
         setPrivilegio(userData.privilegio);
 
         if (userData.privilegio === "responsável") {
-          setFilhos(userData.filhos || []);
+          const userFilhos = userData.filhos || [];
+          setFilhos(userFilhos);
+          setSelectedFilho(userFilhos.length > 0 ? userFilhos[0] : null);
         } else if (userData.privilegio === "admin") {
           const usersSnapshot = await getDocs(collection(db, "Users"));
           const allFilhos = [];
@@ -53,6 +56,7 @@ const DiaADia = () => {
             }
           });
           setFilhos(allFilhos);
+          setSelectedFilho(allFilhos.length > 0 ? allFilhos[0] : null);
         }
       }
     } catch (error) {
@@ -69,17 +73,29 @@ const DiaADia = () => {
         setObservacoes(docData.observacoes || "");
         setAtividades(
           docData.atividades || {
-            dormiu: false,
-            almocou: false,
-            defecou: false,
+            Dormiu: false,
+            Almocou: false,
+            Banheiro: false,
+            Colacao: false,
           }
         );
       } else {
         setObservacoes("");
-        setAtividades({ dormiu: false, almocou: false, defecou: false });
+        setAtividades({
+          Dormiu: false,
+          Almocou: false,
+          Banheiro: false,
+          Colacao: false,
+        });
       }
     }
   };
+
+  useEffect(() => {
+    if (data && selectedFilho) {
+      loadData();
+    }
+  }, [data, selectedFilho]);
 
   useEffect(() => {
     loadData();
@@ -111,8 +127,8 @@ const DiaADia = () => {
   };
 
   const handleBackToHome = () => {
-    router.push('/'); // Redireciona para a Home Page
-};
+    router.push("/"); // Redireciona para a Home Page
+  };
 
   return (
     <div className="diaContainer">
@@ -137,7 +153,12 @@ const DiaADia = () => {
             <label className="diaLabel">Selecione a criança:</label>
             <select
               value={selectedFilho ? JSON.stringify(selectedFilho) : ""}
-              onChange={(e) => setSelectedFilho(JSON.parse(e.target.value))}
+              onChange={(e) => {
+                const selectedValue = e.target.value
+                  ? JSON.parse(e.target.value)
+                  : null;
+                setSelectedFilho(selectedValue);
+              }}
               className="diaSelect"
             >
               <option value="">Selecione</option>
@@ -164,7 +185,7 @@ const DiaADia = () => {
 
         <h3>Atividades</h3>
         <div className="checkboxGroup">
-          {["dormiu", "almocou", "defecou"].map((atividade) => (
+          {["Dormiu", "Almocou", "Banheiro", "Colacao"].map((atividade) => (
             <label key={atividade} className="checkboxItem">
               <input
                 type="checkbox"
