@@ -1,12 +1,12 @@
 "use client";
-import { useState, useEffect } from 'react';
-import { db } from '../firebaseconfig'; // Firestore
-import { collection, addDoc, query, orderBy, onSnapshot } from 'firebase/firestore';
-import Calendar from 'react-calendar';
-import { Home } from 'lucide-react'; // Ícone de Home
-import { useRouter } from 'next/navigation';
-import 'react-calendar/dist/Calendar.css'; // Importar estilos do calendário
-import './calendar.css'; // Importar CSS personalizado
+import { useState, useEffect } from "react";
+import { db } from "../firebaseconfig"; // Firestore
+import { collection, addDoc, query, orderBy, onSnapshot } from "firebase/firestore";
+import Calendar from "react-calendar";
+import { Home } from "lucide-react"; // Ícone de Home
+import { useRouter } from "next/navigation";
+import "react-calendar/dist/Calendar.css"; // Importar estilos do calendário
+import "./calendar.css"; // Importar CSS personalizado
 
 const CalendarPage = () => {
     const router = useRouter();
@@ -15,20 +15,18 @@ const CalendarPage = () => {
     const [events, setEvents] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [showEventModal, setShowEventModal] = useState(false);
-    const [showHolidayModal, setShowHolidayModal] = useState(false); // Modal para adicionar feriados
     const [selectedEvents, setSelectedEvents] = useState([]);
     const [selectedDate, setSelectedDate] = useState(null);
-    const [eventTitle, setEventTitle] = useState('');
-    const [eventDescription, setEventDescription] = useState('');
-    const [holidayTitle, setHolidayTitle] = useState('');
-    const [holidayDescription, setHolidayDescription] = useState('');
-    const [holidayDate, setHolidayDate] = useState(new Date());
+    const [eventTitle, setEventTitle] = useState("");
+    const [eventDescription, setEventDescription] = useState("");
+    const [eventType, setEventType] = useState("");
+    const [eventDate, setEventDate] = useState(new Date());
 
     useEffect(() => {
-        const checkAdmin = localStorage.getItem('isAdmin') === 'true';
+        const checkAdmin = localStorage.getItem("isAdmin") === "true";
         setIsAdmin(checkAdmin);
 
-        const q = query(collection(db, 'events'), orderBy('date', 'asc'));
+        const q = query(collection(db, "events"), orderBy("date", "asc"));
         const unsubscribe = onSnapshot(q, (snapshot) => {
             setEvents(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
         });
@@ -39,45 +37,55 @@ const CalendarPage = () => {
     const handleDayClick = (date) => {
         setSelectedDate(date);
         const dayEvents = events.filter(
-            (event) => event.date.toDate().toISOString().split('T')[0] === date.toISOString().split('T')[0]
+            (event) => event.date.toDate().toISOString().split("T")[0] === date.toISOString().split("T")[0]
         );
         setSelectedEvents(dayEvents);
         setShowEventModal(true);
     };
 
-    const handleAddHoliday = async () => {
+    const handleAddEvent = async () => {
+        if (!eventType || !eventTitle) {
+            alert("Por favor, preencha o tipo e o título do evento.");
+            return;
+        }
+
         try {
-            await addDoc(collection(db, 'events'), {
-                title: holidayTitle,
-                date: holidayDate,
-                description: holidayDescription,
-                type: "holiday",
+            await addDoc(collection(db, "events"), {
+                title: eventTitle,
+                date: eventDate,
+                description: eventDescription,
+                type: eventType,
             });
-            alert('Feriado adicionado com sucesso!');
-            setShowHolidayModal(false);
-            setHolidayTitle('');
-            setHolidayDescription('');
-            setHolidayDate(new Date());
+            alert("Evento adicionado com sucesso!");
+            setShowModal(false);
+            setEventTitle("");
+            setEventDescription("");
+            setEventType("");
+            setEventDate(new Date());
         } catch (error) {
-            console.error('Erro ao adicionar feriado:', error);
-            alert('Erro ao adicionar feriado. Tente novamente.');
+            console.error("Erro ao adicionar evento:", error);
+            alert("Erro ao adicionar evento. Tente novamente.");
         }
     };
 
     const renderTileContent = ({ date }) => {
-        const formattedDate = date.toISOString().split('T')[0];
+        const formattedDate = date.toISOString().split("T")[0];
         const dayEvents = events.filter(
-            (event) => event.date.toDate().toISOString().split('T')[0] === formattedDate
+            (event) => event.date.toDate().toISOString().split("T")[0] === formattedDate
         );
+
         return dayEvents.map((event, index) => (
-            <div key={index} className={`event-tag ${event.type}`}>
+            <div
+                key={index}
+                className={`event-tag ${event.type === "holiday" ? "holiday-tag" : "event-tag"}`}
+            >
                 {event.title}
             </div>
         ));
     };
 
     const handleBackToHome = () => {
-        router.push('/'); // Redireciona para a Home Page
+        router.push("/"); // Redireciona para a Home Page
     };
 
     return (
@@ -98,33 +106,60 @@ const CalendarPage = () => {
 
             {isAdmin && (
                 <div className="admin-controls">
-                    <button className="add-event-button" onClick={() => setShowHolidayModal(true)}>
-                        Adicionar Feriado
+                    <button className="add-event-button" onClick={() => setShowModal(true)}>
+                        Adicionar Evento ou Feriado
                     </button>
                 </div>
             )}
 
-            {showHolidayModal && (
+            {showModal && (
                 <div className="holiday-modal">
-                    <h2>Adicionar Feriado</h2>
+                    <h2>Adicionar Evento ou Feriado</h2>
+
+                    {/* Tipo */}
+                    <label htmlFor="event-type">Tipo:</label>
+                    <select
+                        id="event-type"
+                        value={eventType}
+                        onChange={(e) => setEventType(e.target.value)}
+                        className="custom-select"
+                    >
+                        <option value="">Selecione o tipo</option>
+                        <option value="holiday">Feriado</option>
+                        <option value="event">Evento</option>
+                    </select>
+
+                    {/* Data */}
+                    <label htmlFor="event-date">Data:</label>
                     <input
+                        id="event-date"
                         type="date"
-                        value={holidayDate.toISOString().split('T')[0]}
-                        onChange={(e) => setHolidayDate(new Date(e.target.value))}
+                        value={eventDate.toISOString().split("T")[0]}
+                        onChange={(e) => setEventDate(new Date(e.target.value))}
                     />
+
+                    {/* Título */}
+                    <label htmlFor="event-title">Título:</label>
                     <input
+                        id="event-title"
                         type="text"
-                        placeholder="Título do Feriado"
-                        value={holidayTitle}
-                        onChange={(e) => setHolidayTitle(e.target.value)}
+                        placeholder="Título do Evento ou Feriado"
+                        value={eventTitle}
+                        onChange={(e) => setEventTitle(e.target.value)}
                     />
+
+                    {/* Descrição */}
+                    <label htmlFor="event-description">Descrição:</label>
                     <textarea
+                        id="event-description"
                         placeholder="Descrição"
-                        value={holidayDescription}
-                        onChange={(e) => setHolidayDescription(e.target.value)}
+                        value={eventDescription}
+                        onChange={(e) => setEventDescription(e.target.value)}
                     ></textarea>
-                    <button onClick={handleAddHoliday}>Adicionar Feriado</button>
-                    <button onClick={() => setShowHolidayModal(false)}>Cancelar</button>
+
+                    {/* Botões */}
+                    <button onClick={handleAddEvent}>Adicionar</button>
+                    <button onClick={() => setShowModal(false)}>Cancelar</button>
                 </div>
             )}
 

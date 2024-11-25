@@ -1,9 +1,9 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from './firebaseconfig';
-import { Bell, Calendar, Sun, Image, UserPlus } from 'lucide-react'; // Importar novo ícone
+import { Bell, Calendar, Sun, Image, UserPlus, LogOut } from 'lucide-react'; // Importar novo ícone
 import HomeButton from './components/HomeButton';
 import './Home.css';
 
@@ -24,9 +24,19 @@ export default function Home() {
     return () => unsubscribe();
   }, [router]);
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      router.push('/login'); // Redireciona para a página de login após o logout
+    } catch (error) {
+      console.error("Erro ao fazer logout:", error);
+      alert("Erro ao fazer logout. Tente novamente.");
+    }
+  };
+
   return (
     <div className="container">
-      <h1 className="title">Agenda de Creche</h1>
+      <h1 className="title">Agenda Família</h1>
       <p className="description">
         Acompanhe as atividades, compromissos e novidades diárias de forma fácil e prática.
       </p>
@@ -38,6 +48,12 @@ export default function Home() {
         {isAdmin && ( // Verifica se o usuário é admin
           <HomeButton href="/cadastro" icon={UserPlus} label="Cadastrar Usuários" />
         )}
+      </div>
+      <div className="logoutButtonContainer">
+        <button className="logoutButton" onClick={handleLogout}>
+          <LogOut size={24} className="iconStyle" />
+          Logout
+        </button>
       </div>
     </div>
   );

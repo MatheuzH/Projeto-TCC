@@ -222,34 +222,135 @@ body {
     .custom-calendar {
         max-width: 100%;
         width: 100%;
-        padding: 10px; /* Adiciona um espaçamento interno */
-        box-sizing: border-box; /* Garante que o padding não extrapole a largura */
+        padding: 10px;
+        /* Adiciona um espaçamento interno */
+        box-sizing: border-box;
+        /* Garante que o padding não extrapole a largura */
     }
 
     .react-calendar__tile {
-        font-size: 0.9rem; /* Ajusta o tamanho da fonte para melhor visualização */
-        padding: 8px; /* Reduz o espaçamento interno dos dias */
+        font-size: 0.9rem;
+        /* Ajusta o tamanho da fonte para melhor visualização */
+        padding: 8px;
+        /* Reduz o espaçamento interno dos dias */
     }
 
     .react-calendar__navigation {
         display: flex;
-        flex-wrap: wrap; /* Ajusta a barra de navegação para caber em telas menores */
+        flex-wrap: wrap;
+        /* Ajusta a barra de navegação para caber em telas menores */
         justify-content: space-between;
     }
 
     .react-calendar__navigation button {
-        flex: 1 0 20%; /* Ajusta os botões para ocupar espaço proporcional */
-        font-size: 0.8rem; /* Reduz o tamanho da fonte dos botões */
-        margin: 2px; /* Espaçamento entre os botões */
+        flex: 1 0 20%;
+        /* Ajusta os botões para ocupar espaço proporcional */
+        font-size: 0.8rem;
+        /* Reduz o tamanho da fonte dos botões */
+        margin: 2px;
+        /* Espaçamento entre os botões */
     }
 
     .event-tag {
-        font-size: 0.7rem; /* Ajusta o tamanho das tags de eventos */
-        padding: 3px 5px; /* Reduz o tamanho do padding */
+        font-size: 0.7rem;
+        /* Ajusta o tamanho das tags de eventos */
+        padding: 3px 5px;
+        /* Reduz o tamanho do padding */
     }
 
     .add-event-button {
-        font-size: 0.9rem; /* Ajusta o tamanho do botão para mobile */
-        padding: 8px 12px; /* Reduz o padding do botão */
+        font-size: 0.9rem;
+        /* Ajusta o tamanho do botão para mobile */
+        padding: 8px 12px;
+        /* Reduz o padding do botão */
     }
+}
+
+.custom-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    appearance: none;
+    /* Remove a seta padrão em alguns navegadores */
+    -webkit-appearance: none;
+    /* Remove a seta padrão no Safari */
+    -moz-appearance: none;
+    /* Remove a seta padrão no Firefox */
+}
+
+.custom-select:focus {
+    border-color: #4a90e2;
+    outline: none;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+.custom-select option {
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.holiday-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Alinha tudo ao centro */
+    gap: 15px;
+    /* Espaçamento entre os elementos */
+}
+
+.holiday-modal input,
+.holiday-modal select,
+.holiday-modal textarea,
+.holiday-modal button {
+    width: 80%;
+    /* Define largura consistente */
+    max-width: 400px;
+    /* Limita a largura máxima */
+    padding: 10px;
+    margin: 0 auto;
+    /* Garante centralização horizontal */
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    /* Inclui padding e borda no cálculo da largura */
+}
+
+.holiday-modal button {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    border-radius: 5px;
+}
+
+.holiday-modal button:hover {
+    background-color: #7b4397;
+}
+
+.event-tag {
+    background-color: #7b4397;
+    /* Roxo para eventos */
+    color: white;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.holiday-tag {
+    background-color: #e74c3c;
+    /* Vermelho para feriados */
+    color: white;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    text-align: center;
+    margin-top: 5px;
 }
