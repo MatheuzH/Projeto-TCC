@@ -51,7 +51,6 @@ const GalleryPage = () => {
     if (confirm) {
       try {
         await deleteDoc(doc(db, "gallery", id));
-        alert("Imagem removida com sucesso!");
       } catch (error) {
         console.error("Erro ao remover imagem:", error);
         alert("Erro ao remover imagem. Tente novamente.");
